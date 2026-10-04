@@ -5,7 +5,7 @@ import {
   Home, LayoutDashboard, User, Bell, ChevronRight, Check, Compass, 
   Coffee, ShieldCheck, Thermometer, Wind, Droplets, CalendarDays,
   Search, BedDouble, Bath, Car, Settings, CreditCard, ChevronLeft,
-  Send
+  Send, X
 } from 'lucide-react';
 
 // --- MOCK DATA ---
@@ -47,6 +47,7 @@ export default function AtithiAI() {
   const [showAIIntervention, setShowAIIntervention] = useState(false);
   const [isResolving, setIsResolving] = useState(false);
   const [activeGuestTab, setActiveGuestTab] = useState('home');
+  const [isDemoControlsOpen, setIsDemoControlsOpen] = useState(true);
 
   useEffect(() => {
     if (weather === 'rainy' && itinerary.some(item => item.isVulnerableToWeather)) {
@@ -94,8 +95,29 @@ export default function AtithiAI() {
         />
       )}
 
-      {/* Demo Controller - Hidden on mobile, visible on desktop */}
-      <div className="hidden md:flex fixed bottom-6 right-6 z-50 flex-col gap-3 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-[#E5E0D8]">
+      {!isDemoControlsOpen && (
+        <button
+          onClick={() => setIsDemoControlsOpen(true)}
+          className="fixed bottom-4 right-4 z-50 rounded-full bg-[#1C1C1C] text-white px-3 py-2 text-xs font-medium shadow-lg md:hidden"
+        >
+          Controls
+        </button>
+      )}
+
+      <div
+        className={`fixed bottom-4 right-4 z-50 flex flex-col gap-3 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-[#E5E0D8] transition-all duration-300 md:bottom-6 md:right-6 ${
+          isDemoControlsOpen ? 'translate-x-0 opacity-100' : 'translate-x-[130%] opacity-0 pointer-events-none md:translate-x-0 md:opacity-100 md:pointer-events-auto'
+        }`}
+      >
+        <button
+          type="button"
+          aria-label="Close demo controls"
+          onClick={() => setIsDemoControlsOpen(false)}
+          className="absolute -top-2.5 -right-2.5 flex h-7 w-7 items-center justify-center rounded-full border border-[#E5E0D8] bg-white text-[#1C1C1C] shadow-sm md:hidden"
+        >
+          <X size={14} />
+        </button>
+
         <p className="text-xs font-semibold tracking-wider text-[#8C857B] uppercase mb-1">Demo Controls</p>
         
         <div className="flex bg-[#F0ECE4] rounded-lg p-1">
