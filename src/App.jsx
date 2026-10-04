@@ -94,8 +94,8 @@ export default function AtithiAI() {
         />
       )}
 
-      {/* Demo Controller */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-[#E5E0D8]">
+      {/* Demo Controller - Hidden on mobile, visible on desktop */}
+      <div className="hidden md:flex fixed bottom-6 right-6 z-50 flex-col gap-3 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-[#E5E0D8]">
         <p className="text-xs font-semibold tracking-wider text-[#8C857B] uppercase mb-1">Demo Controls</p>
         
         <div className="flex bg-[#F0ECE4] rounded-lg p-1">
@@ -188,7 +188,7 @@ function GuestApp(props) {
           <div className="relative -top-6">
             <button 
               onClick={() => setActiveTab('ai')}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform ${activeTab === 'ai' ? 'bg-[#BCA37F] text-white shadow-[#BCA37F]/30' : 'bg-[#1C1C1C] text-[#BCA37F] shadow-[#1C1C1C]/20'}`}
+              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform ${activeTab === 'ai' ? 'bg-[#BCA37F] text-white shadow-[#BCA37F]/30' : 'bg-white text-[#BCA37F] shadow-black/10'}`}
             >
               <Sparkles size={24} />
             </button>
@@ -409,7 +409,7 @@ function DiscoverTab() {
         </p>
       </div>
 
-      <div className="space-y-6">
+      <div className="space-y-6 pb-8">
         {EXPERIENCES.map((exp) => (
           <div key={exp.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#E5E0D8] group">
             <div 
@@ -490,7 +490,7 @@ function ServicesTab() {
   ];
 
   return (
-    <div className="pt-12 px-6">
+    <div className="pt-12 px-6 pb-8">
       <h1 className="font-serif text-3xl text-[#1C1C1C] mb-2">Hotel Services</h1>
       <p className="text-[#8C857B] text-sm mb-8">Request services instantly to your room.</p>
 
@@ -498,7 +498,7 @@ function ServicesTab() {
         {services.map((svc, idx) => (
           <button key={idx} className="bg-white p-5 rounded-2xl shadow-sm border border-[#E5E0D8] flex flex-col items-center text-center gap-3 hover:border-[#BCA37F] hover:shadow-md transition-all group">
             <div className="w-12 h-12 rounded-full bg-[#F0ECE4] flex items-center justify-center group-hover:bg-[#1C1C1C] transition-colors">
-              <svc.icon size={22} className="text-[#1C1C1C] group-hover:text-[#BCA37F]" />
+              <svc.icon size={22} className="text-[#1C1C1C] group-hover:text-[#BCA37F] transition-colors" />
             </div>
             <span className="text-sm font-medium text-[#1C1C1C]">{svc.name}</span>
           </button>
@@ -520,7 +520,7 @@ function ServicesTab() {
 
 function ProfileTab() {
   return (
-    <div className="pt-12 px-6 pb-6">
+    <div className="pt-12 px-6 pb-8">
       <h1 className="font-serif text-3xl text-[#1C1C1C] mb-8">Profile</h1>
 
       <div className="bg-white rounded-3xl p-6 shadow-sm border border-[#E5E0D8] text-center mb-8">
