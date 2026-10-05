@@ -58,6 +58,10 @@ const SUNNY_ITINERARY = [
     time: "11:00 AM",
     title: "Private City Tour",
     desc: "Heritage sites and local markets",
+    location: "Old Town · Dehradun",
+    host: "Arjun Mehta · Local guide",
+    duration: "2.5 hours",
+    pickup: "Hotel lobby · 10:50 AM",
     icon: Compass,
     type: "activity",
     status: "current",
@@ -116,6 +120,11 @@ const EXPERIENCES = [
     category: "Wellness",
     time: "Today, 5:30 PM",
     desc: "A restorative 60-minute massage with warm herbal oils in the wellness suite.",
+    rating: "4.9",
+    duration: "60 min",
+    location: "Wellness Pavilion",
+    price: "₹3,200",
+    availability: "2 times available",
     img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1000&auto=format&fit=crop",
   },
   {
@@ -124,6 +133,11 @@ const EXPERIENCES = [
     category: "Dining",
     time: "Today, 7:30 PM",
     desc: "A five-course vegetarian tasting menu featuring produce from the foothills.",
+    rating: "4.8",
+    duration: "2 hours",
+    location: "Saffron Heritage Room",
+    price: "₹2,400 / guest",
+    availability: "Tables for 2 or 4",
     img: "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?q=80&w=1000&auto=format&fit=crop",
   },
   {
@@ -132,7 +146,25 @@ const EXPERIENCES = [
     category: "Culture",
     time: "Tomorrow, 4:45 PM",
     desc: "A private guided walk through the old town and evening food market.",
+    rating: "4.9",
+    duration: "90 min",
+    location: "Old Town · meet in lobby",
+    price: "₹1,800 / guest",
+    availability: "Private guide available",
     img: "https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    title: "Forest Bathing at Maldevta",
+    category: "Wellness",
+    time: "Tomorrow, 8:30 AM",
+    desc: "A slow, guided walk through cedar shade with tea beside the river.",
+    rating: "4.9",
+    duration: "2 hours",
+    location: "Maldevta · pickup included",
+    price: "₹2,600 / guest",
+    availability: "3 places remaining",
+    img: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=85&w=1000&auto=format&fit=crop",
   },
 ];
 
@@ -446,38 +478,96 @@ function HomeTab({
   acceptAlternative,
   keepOriginal,
   addRequest,
+  setActiveTab,
 }) {
+  const currentPlan = itinerary.find((item) => item.status === "current");
   return (
     <>
-      <div className="px-6 pt-12 pb-6 bg-[#1C1C1C] text-white rounded-b-[2rem]">
-        <div className="flex justify-between items-start mb-6">
-          <div>
-            <h1 className="font-serif text-3xl mb-1">Good morning,</h1>
-            <h1 className="font-serif text-3xl text-[#BCA37F] italic">
-              {GUEST.name}.
-            </h1>
+      <div className="home-hero relative min-h-[330px] overflow-hidden bg-[#20362E] text-white">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=85&w=1200&auto=format&fit=crop')",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#13231E]/55 via-[#13231E]/15 to-[#13231E]/90" />
+        <div className="relative flex min-h-[330px] flex-col justify-between px-6 pb-5 pt-11">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/70">
+                The Aranya House
+              </p>
+              <p className="mt-1 text-xs text-white/85">
+                Monday · October 5, 2026
+              </p>
+            </div>
+            <button
+              onClick={() => setActiveTab("profile")}
+              aria-label="Open profile"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white backdrop-blur"
+            >
+              <User size={19} />
+            </button>
           </div>
-          <div className="w-12 h-12 rounded-full border border-[#BCA37F]/30 overflow-hidden bg-[#2A2A2A] flex items-center justify-center">
-            <User size={24} className="text-[#BCA37F]" />
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/5">
-          {weather === "sunny" ? (
-            <Sun size={32} className="text-amber-400" />
-          ) : (
-            <CloudRain size={32} className="text-blue-300" />
-          )}
           <div>
-            <p className="text-sm text-white/70">Right now in Dehradun</p>
-            <p className="text-lg font-medium">
-              {weather === "sunny" ? "24°C, Clear Skies" : "19°C, Heavy Rain"}
+            <p className="mb-1 text-sm font-medium text-[#F0D6AD]">
+              A slower kind of morning
             </p>
+            <h1 className="max-w-[290px] font-serif text-[42px] leading-[0.93]">
+              Good morning,
+              <br />
+              <span className="italic">{GUEST.name}.</span>
+            </h1>
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              <span className="rounded-full border border-white/25 bg-black/20 px-3 py-1.5 text-[10px] font-medium backdrop-blur">
+                Suite 402 · Luxury
+              </span>
+              <span className="flex items-center gap-1.5 rounded-full border border-white/25 bg-black/20 px-3 py-1.5 text-[10px] font-medium backdrop-blur">
+                {weather === "sunny" ? (
+                  <Sun size={12} className="text-[#F0D6AD]" />
+                ) : (
+                  <CloudRain size={12} className="text-blue-200" />
+                )}
+                {weather === "sunny" ? "24° · Clear" : "19° · Rain"}{" "}
+                <span className="text-white/60">Dehradun</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="px-6 py-6 space-y-8">
+      <div className="px-5 py-5 space-y-6 sm:px-6">
+        <div className="grid grid-cols-2 gap-2.5">
+          <button
+            onClick={() => setActiveTab("services")}
+            className="flex items-center justify-between rounded-xl border border-[#E4DED3] bg-white px-3.5 py-3 text-left shadow-sm"
+          >
+            <span>
+              <span className="block text-[10px] uppercase tracking-wide text-[#9B7C53]">
+                At your service
+              </span>
+              <span className="mt-1 block text-xs font-semibold text-[#293C34]">
+                Room requests
+              </span>
+            </span>
+            <BedDouble size={18} className="text-[#435B4D]" />
+          </button>
+          <button
+            onClick={() => setActiveTab("ai")}
+            className="flex items-center justify-between rounded-xl border border-[#E4DED3] bg-white px-3.5 py-3 text-left shadow-sm"
+          >
+            <span>
+              <span className="block text-[10px] uppercase tracking-wide text-[#9B7C53]">
+                Your companion
+              </span>
+              <span className="mt-1 block text-xs font-semibold text-[#293C34]">
+                Ask concierge
+              </span>
+            </span>
+            <Sparkles size={18} className="text-[#9B7C53]" />
+          </button>
+        </div>
         <AnimatePresence mode="popLayout">
           {!showAIIntervention && !isResolving && (
             <motion.div
@@ -582,6 +672,61 @@ function HomeTab({
             </motion.div>
           )}
         </AnimatePresence>
+
+        {currentPlan && (
+          <section className="overflow-hidden rounded-2xl bg-[#253C33] text-white shadow-[0_14px_28px_rgba(31,48,40,0.14)]">
+            <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+              <span className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#E7C99C]">
+                <Clock size={13} /> Next up
+              </span>
+              <span className="rounded-full bg-white/10 px-2.5 py-1 text-[10px] font-semibold">
+                {currentPlan.time}
+              </span>
+            </div>
+            <div className="p-4">
+              <p className="text-[10px] uppercase tracking-wide text-white/55">
+                Your morning, thoughtfully planned
+              </p>
+              <h2 className="mt-1 font-serif text-[25px] leading-tight">
+                {currentPlan.title}
+              </h2>
+              <p className="mt-1 text-xs text-white/70">
+                {currentPlan.location || currentPlan.desc} ·{" "}
+                {currentPlan.duration || "Curated for you"}
+              </p>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="rounded-xl bg-white/8 p-3">
+                  <p className="text-[9px] uppercase tracking-wide text-white/50">
+                    Your guide
+                  </p>
+                  <p className="mt-1 text-[11px] font-semibold">
+                    {currentPlan.host || "Your local host"}
+                  </p>
+                </div>
+                <div className="rounded-xl bg-white/8 p-3">
+                  <p className="text-[9px] uppercase tracking-wide text-white/50">
+                    Meet here
+                  </p>
+                  <p className="mt-1 text-[11px] font-semibold">
+                    {currentPlan.pickup || "Hotel lobby"}
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() =>
+                  addRequest({
+                    title: "Tour pickup confirmation",
+                    category: "Valet / Transport",
+                    detail: `${currentPlan.pickup || "Hotel lobby"} · ${currentPlan.location || currentPlan.title}`,
+                  })
+                }
+                className="mt-3 flex w-full items-center justify-between rounded-xl bg-[#E7C99C] px-3.5 py-2.5 text-left text-[11px] font-bold text-[#263E35]"
+              >
+                Confirm my pickup <ChevronRight size={15} />
+              </button>
+            </div>
+          </section>
+        )}
 
         <div>
           <div className="flex justify-between items-end mb-6">
@@ -705,13 +850,55 @@ function DiscoverTab({ onRequest }) {
   );
 
   return (
-    <div className="pt-12 px-6">
-      <div className="mb-5">
-        <p className="text-xs uppercase tracking-wide text-[#8C857B] mb-1">
-          Curated for your stay
-        </p>
-        <h1 className="font-serif text-3xl text-[#1C1C1C]">Discover</h1>
+    <div className="px-5 pb-8 pt-8 sm:px-6">
+      <div className="mb-5 flex items-end justify-between">
+        <div>
+          <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9B7C53]">
+            The local edit · No. 05
+          </p>
+          <h1 className="font-serif text-[34px] leading-none text-[#202A26]">
+            Discover
+            <br />
+            <span className="italic">Dehradun.</span>
+          </h1>
+        </div>
+        <span className="mb-1 flex items-center gap-1 text-xs text-[#73766D]">
+          <MapPin size={13} className="text-[#9B7C53]" /> 30.3165° N
+        </span>
       </div>
+      <button
+        onClick={() => setSelected(EXPERIENCES[3])}
+        className="discover-feature relative mb-5 flex h-[218px] w-full items-end overflow-hidden rounded-2xl bg-[#263E35] text-left text-white shadow-lg"
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-[1.03]"
+          style={{ backgroundImage: `url(${EXPERIENCES[3].img})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#14251F]/95 via-[#14251F]/25 to-transparent" />
+        <div className="relative w-full p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="rounded-full border border-white/25 bg-black/20 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] backdrop-blur">
+              Outside the ordinary · {EXPERIENCES[3].category}
+            </span>
+            <span className="flex items-center gap-1 rounded-full bg-white/90 px-2 py-1 text-[10px] font-bold text-[#263E35]">
+              ★ {EXPERIENCES[3].rating}
+            </span>
+          </div>
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <h2 className="font-serif text-[26px] leading-none">
+                Breathe beyond the city
+              </h2>
+              <p className="mt-1.5 text-[10px] text-white/75">
+                {EXPERIENCES[3].location} · {EXPERIENCES[3].duration}
+              </p>
+            </div>
+            <span className="shrink-0 rounded-full bg-[#E7C99C] px-3 py-2 text-[10px] font-bold text-[#263E35]">
+              Explore <ChevronRight size={13} className="ml-1 inline" />
+            </span>
+          </div>
+        </div>
+      </button>
       <label className="relative block mb-4">
         <Search size={17} className="absolute left-3 top-3 text-[#8C857B]" />
         <input
@@ -732,42 +919,59 @@ function DiscoverTab({ onRequest }) {
           </button>
         ))}
       </div>
-      <div className="bg-[#1C1C1C] rounded-2xl p-5 text-white mb-6">
-        <Sparkles size={22} className="text-[#BCA37F] mb-2" />
-        <h2 className="font-serif text-xl mb-1">A little more local</h2>
-        <p className="text-white/70 text-sm">
-          Experiences selected around your interests in culture and wellness.
-        </p>
+      <div className="mb-3 flex items-end justify-between">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.15em] text-[#9B7C53]">
+            Chosen for you
+          </p>
+          <h2 className="font-serif text-[22px] leading-tight text-[#202A26]">
+            A little more local
+          </h2>
+        </div>
+        <span className="text-[10px] text-[#858177]">
+          {filtered.length} experiences
+        </span>
       </div>
-      <div className="space-y-5 pb-8">
+      <div className="space-y-3 pb-8">
         {filtered.map((experience) => (
           <article
             key={experience.id}
-            className="bg-white rounded-2xl overflow-hidden shadow-sm border border-[#E5E0D8]"
+            className="flex overflow-hidden rounded-2xl border border-[#E4DED3] bg-white shadow-sm"
           >
             <div
-              className="h-44 bg-cover bg-center"
+              className="w-[104px] shrink-0 bg-cover bg-center"
               style={{ backgroundImage: `url(${experience.img})` }}
             />
-            <div className="p-4">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#9A7A4F]">
-                {experience.category}
-              </span>
-              <div className="flex justify-between gap-2 items-start">
-                <h3 className="font-serif text-xl mt-1">{experience.title}</h3>
-                <span className="text-xs text-[#6B655C] whitespace-nowrap mt-2">
-                  {experience.time}
+            <div className="min-w-0 flex-1 p-3">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-[#9A7A4F]">
+                  {experience.category} · {experience.duration}
+                </span>
+                <span className="shrink-0 text-[10px] font-semibold text-[#536B58]">
+                  ★ {experience.rating}
                 </span>
               </div>
-              <p className="text-sm text-[#6B655C] mt-2 mb-3">
-                {experience.desc}
+              <h3 className="mt-1 font-serif text-[18px] leading-tight text-[#26362E]">
+                {experience.title}
+              </h3>
+              <p className="mt-1 text-[10px] leading-snug text-[#77766E]">
+                {experience.location}
               </p>
-              <button
-                onClick={() => setSelected(experience)}
-                className="text-[#1C1C1C] font-medium text-sm flex items-center gap-1"
-              >
-                Explore & request <ChevronRight size={16} />
-              </button>
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <span className="truncate text-[10px] font-semibold text-[#3F4D44]">
+                  {experience.time}
+                </span>
+                <button
+                  onClick={() => setSelected(experience)}
+                  className="shrink-0 text-[10px] font-bold text-[#9A7545]"
+                >
+                  Details <ChevronRight size={12} className="inline" />
+                </button>
+              </div>
+              <p className="mt-1 text-[9px] text-[#89857C]">
+                {experience.price} · {experience.availability}
+              </p>
+              <p className="sr-only">{experience.desc}</p>
             </div>
           </article>
         ))}
@@ -801,18 +1005,50 @@ function DiscoverTab({ onRequest }) {
                   <X size={18} />
                 </button>
               </div>
-              <h2 className="font-serif text-2xl mt-2">{selected.title}</h2>
+              <div className="mt-2 flex items-start justify-between gap-3">
+                <h2 className="font-serif text-2xl leading-tight">
+                  {selected.title}
+                </h2>
+                <span className="flex shrink-0 items-center gap-1 rounded-full bg-[#EAF1E8] px-2 py-1 text-[10px] font-bold text-[#536B58]">
+                  ★ {selected.rating}
+                </span>
+              </div>
               <p className="text-sm text-[#6B655C] mt-2">{selected.desc}</p>
-              <p className="text-sm mt-4">
-                {selected.time} ·{" "}
-                {selected.category === "Wellness" ? "₹3,200" : "From ₹1,800"}
+              <div className="mt-4 grid grid-cols-2 gap-2 rounded-xl bg-white p-3 text-xs">
+                <div>
+                  <p className="text-[9px] uppercase tracking-wide text-[#9B7C53]">
+                    When
+                  </p>
+                  <p className="mt-1 font-semibold">{selected.time}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-wide text-[#9B7C53]">
+                    Duration
+                  </p>
+                  <p className="mt-1 font-semibold">{selected.duration}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-wide text-[#9B7C53]">
+                    Where
+                  </p>
+                  <p className="mt-1 font-semibold">{selected.location}</p>
+                </div>
+                <div>
+                  <p className="text-[9px] uppercase tracking-wide text-[#9B7C53]">
+                    From
+                  </p>
+                  <p className="mt-1 font-semibold">{selected.price}</p>
+                </div>
+              </div>
+              <p className="mt-3 text-[10px] text-[#6B655C]">
+                {selected.availability}
               </p>
               <button
                 onClick={() => {
                   onRequest({
                     title: selected.title,
                     category: "Experience booking",
-                    detail: selected.time,
+                    detail: `${selected.time} · ${selected.location} · ${selected.price}`,
                   });
                   setSelected(null);
                 }}
@@ -1297,28 +1533,85 @@ function ProfileTab() {
   const [notifications, setNotifications] = useState(true);
   const [openPanel, setOpenPanel] = useState("");
   return (
-    <div className="pt-12 px-6 pb-8">
-      <p className="text-xs uppercase tracking-wide text-[#8C857B] mb-1">
-        Your stay · October 5
+    <div className="profile-page px-5 pt-8 pb-8 sm:px-6">
+      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#9B7C53]">
+        Your private stay
       </p>
-      <h1 className="font-serif text-3xl text-[#1C1C1C] mb-6">Profile</h1>
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#E5E0D8] text-center mb-7">
-        <div className="w-20 h-20 rounded-full bg-[#1C1C1C] text-[#BCA37F] flex items-center justify-center mx-auto mb-3 text-3xl font-serif">
-          V
-        </div>
-        <h2 className="text-2xl font-serif">
-          {GUEST.name} {GUEST.lastName}
-        </h2>
-        <p className="text-sm text-[#8C857B]">Room {GUEST.room}</p>
-        <div className="flex gap-2 justify-center mt-4">
-          <span className="bg-[#F0ECE4] text-xs font-semibold px-3 py-1.5 rounded-full">
-            VIP Guest
+      <h1 className="mb-5 font-serif text-[34px] leading-none text-[#202A26]">
+        The guest book.
+      </h1>
+      <div className="profile-pass relative mb-5 overflow-hidden rounded-2xl p-5 text-white shadow-lg">
+        <div className="relative flex items-start justify-between">
+          <div>
+            <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-white/60">
+              Atithi · Private guest
+            </p>
+            <div className="mt-5 flex items-center gap-3">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#E7C99C]/60 bg-white/5 font-serif text-2xl text-[#E7C99C]">
+                V
+              </div>
+              <div>
+                <h2 className="font-serif text-[25px] leading-none">
+                  {GUEST.name} {GUEST.lastName}
+                </h2>
+                <p className="mt-1.5 text-[10px] text-white/65">{GUEST.room}</p>
+              </div>
+            </div>
+          </div>
+          <span className="flex items-center gap-1 rounded-full border border-[#E7C99C]/35 bg-white/5 px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wide text-[#E7C99C]">
+            <ShieldCheck size={12} /> Signature
           </span>
-          <span className="bg-[#F0ECE4] text-xs font-semibold px-3 py-1.5 rounded-full">
-            {diet}
+        </div>
+        <div className="relative mt-5 flex items-center justify-between border-t border-white/15 pt-3">
+          <span className="text-[9px] uppercase tracking-[0.16em] text-white/55">
+            Guest since · 2022
+          </span>
+          <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#E7C99C]">
+            No. 00402 · Dehradun
           </span>
         </div>
       </div>
+      <section className="mb-6 rounded-2xl border border-[#E4DED3] bg-white p-4 shadow-sm">
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#9B7C53]">
+              October 3 – 7, 2026
+            </p>
+            <h2 className="mt-0.5 font-serif text-[20px] text-[#26362E]">
+              Your stay
+            </h2>
+          </div>
+          <span className="rounded-full bg-[#EAF1E8] px-2.5 py-1 text-[9px] font-semibold text-[#54705B]">
+            In residence
+          </span>
+        </div>
+        <div className="grid grid-cols-3 divide-x divide-[#E8E3D9]">
+          <div className="pr-2">
+            <p className="text-[9px] uppercase tracking-wide text-[#999388]">
+              Room
+            </p>
+            <p className="mt-1 text-xs font-semibold text-[#293C34]">
+              402 Suite
+            </p>
+          </div>
+          <div className="px-3">
+            <p className="text-[9px] uppercase tracking-wide text-[#999388]">
+              Guests
+            </p>
+            <p className="mt-1 text-xs font-semibold text-[#293C34]">
+              2 adults
+            </p>
+          </div>
+          <div className="pl-3">
+            <p className="text-[9px] uppercase tracking-wide text-[#999388]">
+              Nights
+            </p>
+            <p className="mt-1 text-xs font-semibold text-[#293C34]">
+              4 nights
+            </p>
+          </div>
+        </div>
+      </section>
       <section className="mb-6">
         <h3 className="text-xs font-bold uppercase tracking-wider text-[#8C857B] mb-3">
           AI Personalization

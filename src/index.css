@@ -30,3 +30,14 @@ body {
 .request-row {
   box-shadow: 0 2px 8px rgba(42, 48, 40, 0.035);
 }
+
+.profile-pass {
+  background:
+    linear-gradient(115deg, rgba(24, 41, 34, 0.96), rgba(39, 62, 51, 0.96)),
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 12px,
+      rgba(231, 201, 156, 0.08) 12px 13px
+    );
+  box-shadow: 0 14px 28px rgba(31, 48, 40, 0.17);
+}
