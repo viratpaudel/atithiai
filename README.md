@@ -1,93 +1,113 @@
-# Atithi AI (अतिथि AI) 🏨✨
+﻿﻿# Atithi AI
 
-> Agentic AI staff, intelligent concierge, and real-time hyper-personalization for modern luxury hospitality.
+A hotel **guest-concierge + staff-dashboard prototype** built with **Vite + React 18 + Tailwind CSS 3 + framer-motion + lucide-react**.
 
-Atithi AI is an all-in-one hospitality management and autonomous guest companion platform. Designed for boutique properties and luxury hotels (such as The Aranya House), Atithi AI bridges the gap between seamless guest experience and intelligent operations.
+This is a frontend-only prototype. There is **no backend, database, or API** — all data is demo data and the concierge is a keyword-based stub that runs entirely in the browser.
 
-It helps hotels deliver hyper-personalized stays using generative AI to craft dynamic itineraries, menus, and activity suggestions that adapt in real time to weather, guest preferences, and local conditions—boosting satisfaction and operational efficiency.
+## What's inside
 
----
+- **Guest app** (`/`): a mobile-style concierge with Home, Discover, AI Concierge, Services, Lens, and Profile tabs. Weather can be simulated to demo an AI itinerary intervention (rain swaps an outdoor walk for indoor alternatives).
+- **Admin dashboard** (`/admin`): a staff view showing the live weather context, AI intervention status, and guest activity.
+- **Demo controls**: floating widget to switch between the guest app and admin dashboard and to trigger/reset the simulated rain. It is visible when running `npm run dev`, or on any deployment when the URL contains `?demo=1`. It is hidden otherwise.
+- **AI Concierge stub**: matches keywords in the guest's message (spa, towels, dining, transport, booking) and creates a mock request. Messages containing negations like "not", "don't", "do not", "no need", or "cancel" do **not** create a request.
 
-## 🌟 Key Features & Interface Modules
+## Setup
 
-- The Atithi Concierge AI: A conversational companion providing immediate 24/7 assistance with room service, local exploration, spa bookings, and dynamic preferences like dietary tracking.
-- Intelligent Guest Companion (Mobile App):
-  - Smart Home & Stay Overview: Real-time visibility into room status (e.g., Suite 402 Luxury Suite), checkout countdowns, weather sync, and one-tap access to services like housekeeping, valet, and room requests.
-  - Proactive Itinerary Planning: AI-driven morning briefings and dynamic scheduling tailored to current weather conditions and guest preferences.
-  - Curated Local Experiences ("The Local Edit"): Context-aware recommendations for local activities—such as Forest Bathing at Maldevta or culinary tasting menus—with instant reservation workflows.
-- Hotel Command Center (Admin Dashboard):
-  - Live Guest Activity & Interventions: Real-time tracking of active guest states, automated request resolutions, and global satisfaction scores.
-  - Demo & Environmental Controls: Interactive simulation tools allowing operators to test contextual triggers like live weather changes (e.g., triggering rain protocols).
+```bash
+npm install
+npm run dev      # start the dev server (frontend only)
+npm run build    # production build (output in dist/)
+npm run preview  # preview the production build
+npm run lint     # run ESLint
+```
 
----
+## AI concierge (serverless)
 
-## 🏗️ Tech Stack
+The chat endpoint `POST /api/chat` is a Vercel serverless function (`api/chat.js`) that calls the Gemini API (`gemini-2.0-flash`) server-side. The key is never exposed to the client.
 
-- Frontend / Mobile UI: React / Next.js / Tailwind CSS (crafted with a premium, minimalist luxury aesthetic)
-- Backend: Node.js / Python (FastAPI)
-- AI & Orchestration: LLM-driven multi-agent workflows for contextual guest personalization, automated routing, and dynamic itinerary generation
+1. Copy `.env.example` to `.env` and set `GEMINI_API_KEY=<your key>` (get one from Google AI Studio).
+2. Test locally with the Vercel CLI, which serves both the Vite app and the `api/` functions:
 
----
+```bash
+npx vercel dev   # app on http://localhost:3000, /api/chat included
+```
 
-## 🚀 Getting Started
+Without a key, `/api/chat` returns a polite fallback reply and the frontend automatically falls back to the built-in keyword matcher, so the demo still works.
 
-### Prerequisites
+On Vercel, add `GEMINI_API_KEY` in Project Settings → Environment Variables.
 
-- Node.js (v18+ recommended)
-- Python 3.10+ (for backend services)
-- Git
+## Atithi Lens (camera explanation)
 
-### Installation & Setup
+The guest points the phone camera at something (temple sign, menu, monument, price board, plant) and gets an explanation in their language (EN / हिं toggle).
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/viratpaudel/atithiai.git
-   cd atithiai
-   ```
+- Component: `src/components/guest/LensTab.jsx` — 6th tab in the guest bottom nav (Camera icon). It uses `<input type="file" accept="image/*" capture="environment">` (no camera-permission code needed), downscales the photo client-side to max 1024px width via canvas, converts it to JPEG base64, calls `/api/lens`, and shows the result as a card: title, explanation, etiquette chips, translated text, fair-price verdict badge, speaker button (speechSynthesis) and an "Ask Atithi about this" button that opens the AI tab prefilled. Includes a loading skeleton, error state, and the disclaimer **"AI estimate. Verify locally."**
+- Endpoint: `POST /api/lens` (`api/lens.js`) — accepts `{ imageBase64, language: "en" | "hi", note? }` (JPEG base64, no `data:` prefix), rejects payloads over ~4MB, calls Gemini with `inlineData` (mime `image/jpeg`) and `responseMimeType: application/json`, uses `GEMINI_MODEL` (default `gemini-2.0-flash`) with a 15s timeout, and always returns a friendly 200 fallback on failure. Response shape:
 
-2. Configure environment variables:
-   Create a `.env` file in the root directory and add your required keys:
-   ```env
-   PORT=3000
-   DATABASE_URL=your_database_connection_string
-   OPENAI_API_KEY=your_openai_api_key
-   ```
+```json
+{
+  "whatIsThis": "...",
+  "explanation": "...",
+  "etiquette": ["..."],
+  "translatedText": "... | null",
+  "fairPrice": { "applicable": false, "estimateINR": "", "verdict": "unknown", "note": "" },
+  "confidence": "low | medium | high"
+}
+```
 
-3. Install dependencies & run:
-   ```bash
-   # Install frontend/backend packages
-   npm install
-   npm run dev
-   ```
+The prompt never claims certainty, labels price estimates as rough ranges, and refuses to fabricate history or facts.
 
----
+### Environment variables
 
-## 🗺️ Roadmap
+| Variable | Used by | Default | Notes |
+| --- | --- | --- | --- |
+| `GEMINI_API_KEY` | `/api/chat`, `/api/lens` | — | Required for live AI; without it both endpoints return polite fallbacks |
+| `GEMINI_MODEL` | `/api/lens` | `gemini-2.0-flash` | Optional; override to a multimodal-capable model if desired |
 
-- [x] Guest mobile web-app UI & concierge chat interface
-- [x] Localized experience discovery and reservation flow (Dehradun pilot)
-- [x] Hotel Operations & Command Dashboard with live intervention metrics
-- [ ] Deep Property Management System (PMS) integrations
-- [ ] Multi-lingual voice interface support
+## Live weather
 
----
+`AppContext` fetches real weather for Dehradun from Open-Meteo (no API key). If it is raining or the 4 PM precipitation probability is ≥ 60%, the AI intervention flow triggers automatically. The "Trigger Rain" demo button remains as a manual override — once clicked, live weather no longer overrides your choice.
 
-## 🤝 Contributing
+## Folder structure
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/viratpaudel/atithiai/issues).
+```
+src/
+  main.jsx
+  App.jsx                      # router + shell only
+  data/guest.js                # demo data (guest, itinerary, experiences, requests)
+  context/AppContext.jsx       # weather (live + demo), itinerary, requests state + actions
+  components/
+    DemoControls.jsx           # floating demo widget (?demo=1 / dev only)
+    guest/
+      GuestApp.jsx  HomeTab.jsx  DiscoverTab.jsx  AITab.jsx
+      ServicesTab.jsx  ProfileTab.jsx  ProfileToggle.jsx  NavIcon.jsx  LensTab.jsx
+    admin/
+      AdminDashboard.jsx  SidebarItem.jsx  StatCard.jsx
+api/
+  chat.js                      # Vercel serverless function (Gemini concierge)
+  lens.js                      # Vercel serverless function (Gemini camera lens)
+```
 
-1. Fork the Project (`https://github.com/viratpaudel/atithiai/fork`)
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Routes
 
----
+- `/` — guest app
+- `/admin` — admin dashboard
+- `*` — redirects to `/`
 
-## 📄 License
+## Demo flag
 
-Distributed under the [MIT License](LICENSE). See `LICENSE` for more information.
+Append `?demo=1` to the URL to show the demo controls in a production build (e.g. `https://example.com/?demo=1`). In development the controls are always visible.
 
----
+## PWA metadata
 
-<p align="center">Built with ❤️ for the future of luxury hospitality.</p>
+`index.html` includes a theme color, description, apple-touch-icon, and a link to `public/manifest.webmanifest`. The manifest references placeholder icons at `/icons/icon-192.png` and `/icons/icon-512.png` — **add these images to `public/icons/`**.
+
+## Roadmap
+
+- Real backend + PostgreSQL
+- LLM concierge with tool calling (the Gemini endpoint is the first step; the keyword matcher is now its fallback)
+- Secure per-room QR authentication
+- Multilingual support
+- Maps integration (the `show_places` action already stores the query)
+- Dark mode
+
+> Note: earlier drafts of this README mentioned Next.js, FastAPI, OpenAI keys, and multi-agent workflows. Those claims were inaccurate — this project is a Vite + React frontend prototype with a single Vercel serverless function.

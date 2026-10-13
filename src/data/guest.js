@@ -1,0 +1,162 @@
+import {
+  Coffee,
+  Compass,
+  Utensils,
+  MapPin,
+  Sparkles,
+} from "lucide-react";
+
+export const GUEST = {
+  name: "Virat",
+  lastName: "Sharma",
+  room: "402 (Luxury Suite)",
+  preferences: {
+    diet: "Vegetarian",
+    interests: ["Culture", "Wellness", "Quiet Dining"],
+    vibe: "Relaxing",
+  },
+};
+
+export const SUNNY_ITINERARY = [
+  {
+    id: 1,
+    time: "09:00 AM",
+    title: "In-Room Breakfast",
+    desc: "Vegetarian Continental, Green Tea",
+    icon: Coffee,
+    type: "dining",
+    status: "completed",
+  },
+  {
+    id: 2,
+    time: "11:00 AM",
+    title: "Private City Tour",
+    desc: "Heritage sites and local markets",
+    location: "Old Town · Dehradun",
+    host: "Arjun Mehta · Local guide",
+    duration: "2.5 hours",
+    pickup: "Hotel lobby · 10:50 AM",
+    icon: Compass,
+    type: "activity",
+    status: "current",
+  },
+  {
+    id: 3,
+    time: "02:00 PM",
+    title: "Light Lunch at The Courtyard",
+    desc: "Reserved table by the fountain",
+    icon: Utensils,
+    type: "dining",
+    status: "upcoming",
+  },
+  {
+    id: 4,
+    time: "04:00 PM",
+    title: "Botanical Garden Walk",
+    desc: "Outdoor guided nature walk",
+    icon: MapPin,
+    type: "activity",
+    status: "upcoming",
+    isVulnerableToWeather: true,
+  },
+  {
+    id: 5,
+    time: "07:30 PM",
+    title: "Dinner at Saffron",
+    desc: "Chef's special vegetarian tasting menu",
+    icon: Utensils,
+    type: "dining",
+    status: "upcoming",
+  },
+];
+
+export const AI_ALTERNATIVES = [
+  {
+    id: "alt_1",
+    title: "National Art Museum",
+    desc: "Private indoor guided tour (15 mins away).",
+    icon: MapPin,
+    match: "98% match with 'Culture'",
+  },
+  {
+    id: "alt_2",
+    title: "Signature Ayurvedic Spa",
+    desc: "60-min deep tissue massage in the wellness center.",
+    icon: Sparkles,
+    match: "95% match with 'Wellness'",
+  },
+];
+
+export const EXPERIENCES = [
+  {
+    id: 1,
+    title: "Ayurvedic Rejuvenation",
+    category: "Wellness",
+    time: "Today, 5:30 PM",
+    desc: "A restorative 60-minute massage with warm herbal oils in the wellness suite.",
+    rating: "4.9",
+    duration: "60 min",
+    location: "Wellness Pavilion",
+    price: "₹3,200",
+    availability: "2 times available",
+    img: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    title: "Chef's Tasting Menu",
+    category: "Dining",
+    time: "Today, 7:30 PM",
+    desc: "A five-course vegetarian tasting menu featuring produce from the foothills.",
+    rating: "4.8",
+    duration: "2 hours",
+    location: "Saffron Heritage Room",
+    price: "₹2,400 / guest",
+    availability: "Tables for 2 or 4",
+    img: "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    title: "Heritage Sunset Walk",
+    category: "Culture",
+    time: "Tomorrow, 4:45 PM",
+    desc: "A private guided walk through the old town and evening food market.",
+    rating: "4.9",
+    duration: "90 min",
+    location: "Old Town · meet in lobby",
+    price: "₹1,800 / guest",
+    availability: "Private guide available",
+    img: "https://images.unsplash.com/photo-1599839619722-39751411ea63?q=80&w=1000&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    title: "Forest Bathing at Maldevta",
+    category: "Wellness",
+    time: "Tomorrow, 8:30 AM",
+    desc: "A slow, guided walk through cedar shade with tea beside the river.",
+    rating: "4.9",
+    duration: "2 hours",
+    location: "Maldevta · pickup included",
+    price: "₹2,600 / guest",
+    availability: "3 places remaining",
+    img: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=85&w=1000&auto=format&fit=crop",
+  },
+];
+
+export const INITIAL_REQUESTS = [
+  {
+    id: 1,
+    title: "Fresh towels",
+    category: "Housekeeping",
+    detail: "2 bath towels",
+    status: "On the way",
+    time: "Today, 10:18 AM",
+  },
+  {
+    id: 2,
+    title: "Breakfast for two",
+    category: "In-Room Dining",
+    detail: "Vegetarian continental",
+    status: "Completed",
+    time: "Today, 8:42 AM",
+  },
+];
