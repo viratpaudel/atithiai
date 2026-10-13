@@ -1,0 +1,191 @@
+// Real Dehradun / Mussoorie-area places. All crowd numbers and spend figures on
+// this file are DEMO ESTIMATES for the prototype — never presented as live data.
+
+const PLACES = [
+  {
+    id: "robbers-cave",
+    name: "Robber's Cave (Guchhupani)",
+    lat: 30.3437,
+    lon: 78.0455,
+    category: "Nature",
+    tags: [],
+    baseCrowd: 65,
+    travelMinutes: 30,
+    localSpendINR: 600,
+    shortDesc: "A narrow limestone gorge with a cold stream running through it.",
+  },
+  {
+    id: "sahastradhara",
+    name: "Sahastradhara Springs",
+    lat: 30.3612,
+    lon: 78.1041,
+    category: "Nature",
+    tags: [],
+    baseCrowd: 75,
+    travelMinutes: 40,
+    localSpendINR: 800,
+    shortDesc: "Limestone springs and terraced pools east of the city.",
+  },
+  {
+    id: "mindrolling-monastery",
+    name: "Mindrolling Monastery",
+    lat: 30.3245,
+    lon: 78.0428,
+    category: "Culture",
+    tags: ["indoor", "rain-friendly"],
+    baseCrowd: 45,
+    travelMinutes: 20,
+    localSpendINR: 400,
+    shortDesc: "One of India's largest Buddhist monasteries, with a tall stupa.",
+  },
+  {
+    id: "paltan-bazaar",
+    name: "Paltan Bazaar",
+    lat: 30.3255,
+    lon: 78.0365,
+    category: "Market",
+    tags: ["local-artisan", "indoor"],
+    baseCrowd: 70,
+    travelMinutes: 15,
+    localSpendINR: 1200,
+    shortDesc: "Busy local market for woollens, spices and street food.",
+  },
+  {
+    id: "tapkeshwar-temple",
+    name: "Tapkeshwar Temple",
+    lat: 30.3531,
+    lon: 78.0084,
+    category: "Culture",
+    tags: [],
+    baseCrowd: 55,
+    travelMinutes: 35,
+    localSpendINR: 400,
+    shortDesc: "A cave Shiva shrine on the Tons river, ringing with bells.",
+  },
+  {
+    id: "forest-research-institute",
+    name: "Forest Research Institute",
+    lat: 30.337,
+    lon: 77.997,
+    category: "Museum",
+    tags: ["indoor", "rain-friendly", "eco-friendly"],
+    baseCrowd: 40,
+    travelMinutes: 25,
+    localSpendINR: 500,
+    shortDesc: "Grand colonial forestry campus with museums and shaded lawns.",
+  },
+  {
+    id: "malsi-deer-park",
+    name: "Malsi Deer Park",
+    lat: 30.3662,
+    lon: 78.0101,
+    category: "Nature",
+    tags: ["eco-friendly", "low-crowd"],
+    baseCrowd: 35,
+    travelMinutes: 30,
+    localSpendINR: 400,
+    shortDesc: "A quiet wooded park on the slopes below Mussoorie.",
+  },
+  {
+    id: "mall-road-mussoorie",
+    name: "Mussoorie Mall Road",
+    lat: 30.458,
+    lon: 78.068,
+    category: "Market",
+    tags: [],
+    baseCrowd: 90,
+    travelMinutes: 75,
+    localSpendINR: 1500,
+    shortDesc: "The classic hill-station promenade — and its biggest crowds.",
+  },
+  {
+    id: "kempty-falls",
+    name: "Kempty Falls",
+    lat: 30.4763,
+    lon: 77.948,
+    category: "Nature",
+    tags: [],
+    baseCrowd: 85,
+    travelMinutes: 90,
+    localSpendINR: 700,
+    shortDesc: "Famous multi-tier waterfall, busiest around midday.",
+  },
+  {
+    id: "lal-tibba",
+    name: "Lal Tibba Viewpoint, Landour",
+    lat: 30.4835,
+    lon: 78.079,
+    category: "Viewpoint",
+    tags: ["low-crowd"],
+    baseCrowd: 45,
+    travelMinutes: 85,
+    localSpendINR: 600,
+    shortDesc: "Landour's highest lookout over the Garhwal snowline.",
+  },
+  {
+    id: "george-everest",
+    name: "George Everest House",
+    lat: 30.451,
+    lon: 78.056,
+    category: "Viewpoint",
+    tags: [],
+    baseCrowd: 50,
+    travelMinutes: 70,
+    localSpendINR: 500,
+    shortDesc: "The surveyor's abandoned estate on a grassy ridge.",
+  },
+  {
+    id: "dhanaulti",
+    name: "Dhanaulti Cedar Forests",
+    lat: 30.423,
+    lon: 78.239,
+    category: "Offbeat",
+    tags: ["low-crowd", "eco-friendly"],
+    baseCrowd: 25,
+    travelMinutes: 100,
+    localSpendINR: 900,
+    shortDesc: "Cedar-lined eco-parks and quiet trails past Mussoorie.",
+  },
+  {
+    id: "kanatal",
+    name: "Kanatal Village",
+    lat: 30.398,
+    lon: 78.275,
+    category: "Offbeat",
+    tags: ["low-crowd", "eco-friendly"],
+    baseCrowd: 20,
+    travelMinutes: 105,
+    localSpendINR: 1100,
+    shortDesc: "Apple-orchard village roads with valley views and homestays.",
+  },
+  {
+    id: "chakrata",
+    name: "Chakrata Forest Trails",
+    lat: 30.706,
+    lon: 77.869,
+    category: "Offbeat",
+    tags: ["low-crowd", "eco-friendly"],
+    baseCrowd: 18,
+    travelMinutes: 120,
+    localSpendINR: 1300,
+    shortDesc: "A cantonment hill town of deodar forests and quiet viewpoints.",
+  },
+];
+
+// Adjusted crowd estimate for weekends/holidays. Returns 0-100 (estimated).
+export function getCrowd(place, { isWeekend = false, isHoliday = false } = {}) {
+  if (!place) return 0;
+  let crowd = place.baseCrowd;
+  if (isWeekend) crowd *= 1.35;
+  if (isHoliday) crowd *= 1.5;
+  return Math.max(0, Math.min(100, Math.round(crowd)));
+}
+
+// Bucket the estimated crowd into a friendly label.
+export function crowdLabel(crowd) {
+  if (crowd < 35) return "Low";
+  if (crowd < 65) return "Medium";
+  return "High";
+}
+
+export default PLACES;
