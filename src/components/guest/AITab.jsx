@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Sparkles, Send } from "lucide-react";
 import { GUEST } from "../../data/guest";
 import { useApp } from "../../context/AppContext";
+import IconBadge from "../ui/IconBadge";
 import PLACES, { getCrowd, crowdLabel } from "../../data/places";
 
 const NEGATION_KEYWORDS = [
@@ -197,15 +198,13 @@ export default function AITab({ onRequest, initialDraft = null }) {
   };
 
   return (
-    <div className="h-full min-h-[560px] flex flex-col bg-[#F7F5F2]">
-      <div className="pt-12 px-6 pb-4 bg-white border-b border-[#E5E0D8] shadow-sm relative z-10">
+    <div className="h-full min-h-[560px] flex flex-col bg-surface">
+      <div className="pt-12 px-6 pb-4 bg-hero text-white border-b border-white/10 shadow-sm relative z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#1C1C1C] flex items-center justify-center">
-            <Sparkles size={20} className="text-[#BCA37F]" />
-          </div>
+          <IconBadge icon={Sparkles} tone="saffron" size="md" />
           <div>
             <h1 className="font-serif text-xl">Atithi Concierge</h1>
-            <p className="text-xs text-green-700 font-medium">
+            <p className="text-xs text-brand-200 font-medium">
               ● Online · ready to help
             </p>
           </div>
@@ -215,18 +214,20 @@ export default function AITab({ onRequest, initialDraft = null }) {
         {messages.map((message, index) => (
           <div
             key={`${index}-${message.from}`}
-            className={`max-w-[86%] rounded-2xl p-4 text-sm leading-relaxed ${message.from === "guest" ? "ml-auto bg-[#1C1C1C] text-white rounded-br-sm" : "bg-white shadow-sm border border-[#E5E0D8] rounded-tl-sm"}`}
+            className={`max-w-[86%] rounded-2xl p-4 text-sm leading-relaxed shadow-card ${message.from === "guest" ? "ml-auto bg-primary-btn text-white rounded-br-sm" : "glass text-ink rounded-tl-sm"}`}
           >
             {message.text}
           </div>
         ))}
         {isTyping && (
-          <div className="max-w-[86%] rounded-2xl p-4 text-sm leading-relaxed bg-white shadow-sm border border-[#E5E0D8] rounded-tl-sm">
-            Atithi is typing…
+          <div className="max-w-[86%] rounded-2xl p-4 glass rounded-tl-sm flex items-center gap-1.5">
+            <span className="typing-dot" />
+            <span className="typing-dot" />
+            <span className="typing-dot" />
           </div>
         )}
         {showPlacesQuery !== null && (
-          <div className="max-w-[86%] rounded-2xl p-4 text-xs leading-relaxed bg-[#F0ECE4] border border-[#E5E0D8] rounded-tl-sm">
+          <div className="max-w-[86%] rounded-2xl p-4 text-xs leading-relaxed bg-brand-50 border border-line rounded-tl-sm">
             Suggested places for “{showPlacesQuery}” — map coming soon.
           </div>
         )}
@@ -236,7 +237,7 @@ export default function AITab({ onRequest, initialDraft = null }) {
               <button
                 key={reply}
                 onClick={() => sendMessage(reply)}
-                className="bg-white text-[#1C1C1C] text-xs font-medium px-3 py-2 rounded-full border border-[#E5E0D8]"
+                className="bg-card text-ink text-xs font-medium px-3 py-2 rounded-full border border-line"
               >
                 {reply}
               </button>
@@ -249,19 +250,19 @@ export default function AITab({ onRequest, initialDraft = null }) {
           event.preventDefault();
           sendMessage();
         }}
-        className="px-4 py-3 bg-white border-t border-[#E5E0D8] flex gap-2"
+        className="px-4 py-3 bg-card/80 backdrop-blur-xl border-t border-line flex gap-2"
       >
         <input
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
           placeholder="Ask for a recommendation or service..."
-          className="min-w-0 flex-1 bg-[#F0ECE4] rounded-full py-3 px-4 text-sm outline-none focus:ring-2 focus:ring-[#BCA37F]"
+          className="min-w-0 flex-1 bg-brand-50 rounded-full py-3 px-4 text-sm outline-none focus:ring-2 focus:ring-saffron-500"
         />
         <button
           aria-label="Send message"
           type="submit"
           disabled={!draft.trim()}
-          className="w-11 h-11 shrink-0 rounded-full bg-[#1C1C1C] flex items-center justify-center text-white disabled:opacity-40"
+          className="min-h-[44px] min-w-[44px] w-11 h-11 shrink-0 rounded-full bg-primary-btn flex items-center justify-center text-white shadow-glow active:scale-95 disabled:opacity-40"
         >
           <Send size={16} />
         </button>

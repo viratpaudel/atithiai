@@ -35,8 +35,8 @@ export default function GuestApp() {
   };
 
   return (
-    <div className="flex justify-center min-h-screen bg-[#EAE6DF] p-0 md:p-8">
-      <div className="w-full max-w-[430px] bg-[#F7F5F2] md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative h-[100dvh] md:h-[850px] border-[8px] border-[#1C1C1C]">
+    <div className="flex justify-center min-h-screen bg-hero text-white p-0 md:p-8">
+      <div className="w-full max-w-[430px] bg-surface md:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative h-[100dvh] md:h-[850px] border-[8px] border-brand-950">
         {/* Scrollable Content Area */}
         <div className="flex-1 overflow-y-auto pb-28 scrollbar-hide">
           <AnimatePresence mode="wait">
@@ -123,48 +123,52 @@ export default function GuestApp() {
           </AnimatePresence>
         </div>
 
-        {/* Bottom Navigation */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-[#E5E0D8] px-6 py-4 flex justify-between items-center z-40 pb-safe">
-          <NavIcon
-            icon={Home}
-            label="Home"
-            active={activeTab === "home"}
-            onClick={() => setActiveTab("home")}
-          />
-          <NavIcon
-            icon={Compass}
-            label="Discover"
-            active={activeTab === "discover"}
-            onClick={() => setActiveTab("discover")}
-          />
+        {/* Floating pill bottom navigation */}
+        <div className="absolute bottom-4 left-4 right-4 z-40">
+          <div className="glass rounded-full shadow-navpill px-3 py-2.5 flex justify-between items-center">
+            <NavIcon
+              icon={Home}
+              label="Home"
+              active={activeTab === "home"}
+              onClick={() => setActiveTab("home")}
+            />
+            <NavIcon
+              icon={Compass}
+              label="Discover"
+              active={activeTab === "discover"}
+              onClick={() => setActiveTab("discover")}
+            />
 
-          <div className="relative -top-6">
-            <button
-              onClick={() => setActiveTab("ai")}
-              className={`w-14 h-14 rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-transform ${activeTab === "ai" ? "bg-[#BCA37F] text-white shadow-[#BCA37F]/30" : "bg-white text-[#BCA37F] shadow-black/10"}`}
-            >
-              <Sparkles size={24} />
-            </button>
+            <div className="relative -top-6">
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                whileHover={{ scale: 1.06 }}
+                onClick={() => setActiveTab("ai")}
+                className="w-14 h-14 rounded-full flex items-center justify-center bg-primary-btn text-white shadow-glow"
+              >
+                <Sparkles size={24} />
+              </motion.button>
+            </div>
+
+            <NavIcon
+              icon={Bell}
+              label="Services"
+              active={activeTab === "services"}
+              onClick={() => setActiveTab("services")}
+            />
+            <NavIcon
+              icon={Camera}
+              label="Lens"
+              active={activeTab === "lens"}
+              onClick={() => setActiveTab("lens")}
+            />
+            <NavIcon
+              icon={User}
+              label="Profile"
+              active={activeTab === "profile"}
+              onClick={() => setActiveTab("profile")}
+            />
           </div>
-
-          <NavIcon
-            icon={Bell}
-            label="Services"
-            active={activeTab === "services"}
-            onClick={() => setActiveTab("services")}
-          />
-          <NavIcon
-            icon={Camera}
-            label="Lens"
-            active={activeTab === "lens"}
-            onClick={() => setActiveTab("lens")}
-          />
-          <NavIcon
-            icon={User}
-            label="Profile"
-            active={activeTab === "profile"}
-            onClick={() => setActiveTab("profile")}
-          />
         </div>
       </div>
     </div>

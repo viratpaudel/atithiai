@@ -1,13 +1,12 @@
-export default function SidebarItem({ icon: Icon, label, active, count, alert }) {
+import IconBadge from "../ui/IconBadge";
+
+export default function SidebarItem({ icon: Icon, label, active, count, alert, tone = "teal" }) {
   return (
     <button
-      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5 hover:text-white"}`}
+      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors ${active ? "bg-white/10 text-white" : "text-white/70 hover:bg-white/5 hover:text-white"}`}
     >
       <div className="flex items-center gap-3">
-        <Icon
-          size={18}
-          className={alert ? "text-red-400" : active ? "text-[#BCA37F]" : ""}
-        />
+        <IconBadge icon={Icon} tone={alert ? "coral" : tone} size="sm" pulse={alert} />
         <span className="text-sm font-medium">{label}</span>
       </div>
       {count && (

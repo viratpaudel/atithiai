@@ -11,6 +11,8 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import IconBadge from "../ui/IconBadge";
+
 const MAX_WIDTH = 1024;
 const MAX_BASE64_CHARS = 3.2 * 1024 * 1024; // stay well under the 4MB API limit
 
@@ -92,21 +94,21 @@ const STRINGS = {
 };
 
 const SkeletonCard = () => (
-  <div className="bg-white rounded-3xl border border-[#E5E0D8] shadow-sm p-5 space-y-3 animate-pulse">
-    <div className="h-5 w-2/3 bg-[#EAE6DF] rounded-full" />
-    <div className="h-3 w-full bg-[#EAE6DF] rounded-full" />
-    <div className="h-3 w-5/6 bg-[#EAE6DF] rounded-full" />
-    <div className="h-3 w-4/6 bg-[#EAE6DF] rounded-full" />
+  <div className="bg-card rounded-3xl border border-line shadow-sm p-5 space-y-3 animate-pulse">
+    <div className="h-5 w-2/3 bg-brand-100 dark:bg-brand-500/15 rounded-full" />
+    <div className="h-3 w-full bg-brand-100 dark:bg-brand-500/15 rounded-full" />
+    <div className="h-3 w-5/6 bg-brand-100 dark:bg-brand-500/15 rounded-full" />
+    <div className="h-3 w-4/6 bg-brand-100 dark:bg-brand-500/15 rounded-full" />
     <div className="flex gap-2 pt-2">
-      <div className="h-7 w-24 bg-[#EAE6DF] rounded-full" />
-      <div className="h-7 w-20 bg-[#EAE6DF] rounded-full" />
+      <div className="h-7 w-24 bg-brand-100 dark:bg-brand-500/15 rounded-full" />
+      <div className="h-7 w-20 bg-brand-100 dark:bg-brand-500/15 rounded-full" />
     </div>
   </div>
 );
 
 function Chip({ children }) {
   return (
-    <span className="inline-block text-[11px] font-medium bg-[#F0ECE4] text-[#1C1C1C] border border-[#E5E0D8] rounded-full px-3 py-1.5">
+    <span className="inline-block text-[11px] font-medium bg-brand-50 text-ink border border-line rounded-full px-3 py-1.5">
       {children}
     </span>
   );
@@ -205,37 +207,35 @@ export default function LensTab({ onAskAtithi }) {
 
   const verdictBadge = (verdict) => {
     if (verdict === "fair") {
-      return "bg-green-100 text-green-800 border-green-200";
+      return "bg-green-100 dark:bg-emerald-500/20 text-green-800 dark:text-emerald-300 border-green-200 dark:border-emerald-500/30";
     }
     if (verdict === "high") {
-      return "bg-amber-100 text-amber-800 border-amber-200";
+      return "bg-amber-100 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-500/30";
     }
-    return "bg-[#F0ECE4] text-[#A39C93] border-[#E5E0D8]";
+    return "bg-brand-50 text-muted border-line";
   };
 
   return (
-    <div className="h-full min-h-[560px] flex flex-col bg-[#F7F5F2]">
+    <div className="h-full min-h-[560px] flex flex-col bg-surface">
       {/* Header + language toggle */}
-      <div className="pt-12 px-6 pb-4 bg-white border-b border-[#E5E0D8] shadow-sm relative z-10">
+      <div className="pt-12 px-6 pb-4 bg-card border-b border-line shadow-sm relative z-10">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#1C1C1C] flex items-center justify-center">
-              <Camera size={20} className="text-[#BCA37F]" />
-            </div>
+            <IconBadge icon={Camera} tone="saffron" size="md" />
             <div>
               <h1 className="font-serif text-xl">{t.title}</h1>
-              <p className="text-xs text-green-700 font-medium">{t.subtitle}</p>
+              <p className="text-xs text-green-700 dark:text-emerald-400 font-medium">{t.subtitle}</p>
             </div>
           </div>
-          <div className="flex bg-[#F0ECE4] rounded-full p-1 text-[11px] font-medium shrink-0">
+          <div className="flex bg-brand-50 rounded-full p-1 text-[11px] font-medium shrink-0">
             {["en", "hi"].map((lang) => (
               <button
                 key={lang}
                 onClick={() => setLanguage(lang)}
                 className={`px-3 py-1.5 rounded-full transition-colors ${
                   language === lang
-                    ? "bg-[#1C1C1C] text-white"
-                    : "text-[#A39C93]"
+                    ? "bg-brand-900 text-white"
+                    : "text-muted"
                 }`}
               >
                 {lang === "en" ? "EN" : "हिं"}
@@ -247,7 +247,7 @@ export default function LensTab({ onAskAtithi }) {
 
       {/* Scrollable body */}
       <div className="flex-1 overflow-y-auto px-5 py-5 space-y-4">
-        <p className="text-xs leading-relaxed text-[#6B655C]">{t.hint}</p>
+        <p className="text-xs leading-relaxed text-muted">{t.hint}</p>
 
         {/* Capture */}
         <input
@@ -260,7 +260,7 @@ export default function LensTab({ onAskAtithi }) {
         />
         <button
           onClick={() => inputRef.current?.click()}
-          className="w-full flex items-center justify-center gap-2 bg-[#1C1C1C] text-white text-sm font-medium py-3.5 rounded-2xl hover:bg-black transition-colors"
+          className="w-full flex items-center justify-center gap-2 bg-brand-900 text-white text-sm font-medium py-3.5 rounded-2xl hover:bg-black transition-colors"
         >
           <Camera size={18} />
           {t.capture}
@@ -275,7 +275,7 @@ export default function LensTab({ onAskAtithi }) {
 
         {previewUrl && (
           <div className="space-y-3">
-            <div className="relative rounded-3xl overflow-hidden border border-[#E5E0D8] shadow-sm">
+            <div className="relative rounded-3xl overflow-hidden border border-line shadow-sm">
               <img
                 src={previewUrl}
                 alt="Preview"
@@ -288,10 +288,10 @@ export default function LensTab({ onAskAtithi }) {
                   setResult(null);
                   setError(null);
                 }}
-                className="absolute top-3 right-3 bg-white/90 backdrop-blur rounded-full p-2 shadow"
+                className="absolute top-3 right-3 bg-card/90 backdrop-blur rounded-full p-2 shadow"
                 aria-label={t.retake}
               >
-                <RotateCcw size={14} className="text-[#1C1C1C]" />
+                <RotateCcw size={14} className="text-ink" />
               </button>
             </div>
 
@@ -299,13 +299,13 @@ export default function LensTab({ onAskAtithi }) {
               value={note}
               onChange={(event) => setNote(event.target.value)}
               placeholder={t.notePlaceholder}
-              className="w-full bg-white border border-[#E5E0D8] rounded-full py-3 px-4 text-sm outline-none focus:ring-2 focus:ring-[#BCA37F]"
+              className="w-full bg-card border border-line rounded-full py-3 px-4 text-sm outline-none focus:ring-2 focus:ring-saffron-500"
             />
 
             <button
               onClick={analyze}
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 bg-[#BCA37F] text-white text-sm font-medium py-3.5 rounded-2xl hover:bg-[#a98f6d] transition-colors disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 bg-saffron-500 text-white text-sm font-medium py-3.5 rounded-2xl hover:brightness-110 transition-colors disabled:opacity-60"
             >
               {loading ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -322,7 +322,7 @@ export default function LensTab({ onAskAtithi }) {
 
         {/* Result card */}
         {result && !loading && (
-          <div ref={resultRef} className="bg-white rounded-3xl border border-[#E5E0D8] shadow-sm p-5 space-y-4">
+          <div ref={resultRef} className="bg-card rounded-3xl border border-line shadow-sm p-5 space-y-4">
             <div className="flex items-start justify-between gap-2">
               <h2 className="font-serif text-lg leading-snug">
                 {result.whatIsThis}
@@ -330,27 +330,27 @@ export default function LensTab({ onAskAtithi }) {
               <button
                 onClick={toggleSpeech}
                 aria-label={speaking ? t.stop : t.speak}
-                className="shrink-0 w-9 h-9 rounded-full bg-[#F0ECE4] flex items-center justify-center hover:bg-[#EAE6DF]"
+                className="shrink-0 w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center hover:bg-brand-100 dark:bg-brand-500/15"
               >
                 {speaking ? (
-                  <VolumeX size={16} className="text-[#1C1C1C]" />
+                  <VolumeX size={16} className="text-ink" />
                 ) : (
-                  <Volume2 size={16} className="text-[#1C1C1C]" />
+                  <Volume2 size={16} className="text-ink" />
                 )}
               </button>
             </div>
 
-            <p className="text-sm leading-relaxed text-[#3D3831]">
+            <p className="text-sm leading-relaxed text-ink">
               {result.explanation}
             </p>
 
-            <p className="text-[10px] uppercase tracking-wide text-[#A39C93] font-medium">
+            <p className="text-[10px] uppercase tracking-wide text-muted font-medium">
               {t.confidence[result.confidence] ?? result.confidence}
             </p>
 
             {result.etiquette?.length > 0 && (
               <div className="space-y-2">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-[#A39C93]">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-muted">
                   {t.etiquette}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -362,27 +362,27 @@ export default function LensTab({ onAskAtithi }) {
             )}
 
             {result.translatedText && (
-              <div className="bg-[#F0ECE4] rounded-2xl p-4 border border-[#E5E0D8]">
-                <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#A39C93] mb-1">
+              <div className="bg-brand-50 rounded-2xl p-4 border border-line">
+                <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted mb-1">
                   <Languages size={12} />
                   {t.translated}
                 </p>
-                <p className="text-sm leading-relaxed text-[#1C1C1C]">
+                <p className="text-sm leading-relaxed text-ink">
                   {result.translatedText}
                 </p>
               </div>
             )}
 
             {result.fairPrice && (
-              <div className="rounded-2xl border border-[#E5E0D8] p-4">
-                <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-[#A39C93] mb-2">
+              <div className="rounded-2xl border border-line p-4">
+                <p className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted mb-2">
                   <BadgeIndianRupee size={12} />
                   {t.fairPrice}
                 </p>
                 {result.fairPrice.applicable ? (
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold text-[#1C1C1C]">
+                      <span className="text-sm font-semibold text-ink">
                         {result.fairPrice.estimateINR}
                       </span>
                       <span
@@ -392,13 +392,13 @@ export default function LensTab({ onAskAtithi }) {
                       </span>
                     </div>
                     {result.fairPrice.note && (
-                      <p className="text-xs leading-relaxed text-[#6B655C]">
+                      <p className="text-xs leading-relaxed text-muted">
                         {result.fairPrice.note}
                       </p>
                     )}
                   </div>
                 ) : (
-                  <p className="text-xs text-[#A39C93]">{t.unknown}</p>
+                  <p className="text-xs text-muted">{t.unknown}</p>
                 )}
               </div>
             )}
@@ -410,14 +410,14 @@ export default function LensTab({ onAskAtithi }) {
                     `${result.whatIsThis} — ${result.explanation}`,
                   )
                 }
-                className="w-full flex items-center justify-center gap-2 bg-[#1C1C1C] text-white text-sm font-medium py-3 rounded-2xl hover:bg-black transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-brand-900 text-white text-sm font-medium py-3 rounded-2xl hover:bg-black transition-colors"
               >
-                <Sparkles size={16} className="text-[#BCA37F]" />
+                <Sparkles size={16} className="text-saffron-500" />
                 {t.askAtithi}
               </button>
             )}
 
-            <p className="text-[10px] text-center text-[#A39C93] border-t border-[#E5E0D8] pt-3">
+            <p className="text-[10px] text-center text-muted border-t border-line pt-3">
               {t.disclaimer}
             </p>
           </div>
