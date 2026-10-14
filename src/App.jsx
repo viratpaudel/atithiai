@@ -1,4 +1,4 @@
-﻿﻿import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import GuestApp from "./components/guest/GuestApp";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import DemoControls from "./components/DemoControls";

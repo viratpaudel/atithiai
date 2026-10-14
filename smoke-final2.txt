@@ -1,0 +1,21 @@
+﻿node : (node:4744) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to 
+security vulnerabilities, as the arguments are not escaped, only concatenated.
+At line:1 char:153
++ ...  -Id 20088 -Force; Start-Sleep 1; node scripts/smoke.mjs 2>&1 | Out-F ...
++                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ((node:4744) [DE...y concatenated.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(Use `node --trace-deprecation ...` to show where the warning was created)
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m4173[22m/[39m
+[2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+RUNNER ERROR: page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "http://localhost:4173/", waiting until "networkidle"[22m
+
+    at run (C:\Users\ROHIT\setu-frontend\dsa-quest-game\atithiai\scripts\smoke.mjs:54:16) {
+  log: [
+    '  - navigating to "http://localhost:4173/", waiting until "networkidle"'
+  ],
+  name: 'TimeoutError'
+}
