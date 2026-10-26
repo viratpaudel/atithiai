@@ -28,6 +28,9 @@ flowchart TD
         Context[Context & Preferences Matcher]
         WeatherSync[Weather & Event Monitor]
         DynamicItinerary[Proactive Rescheduling Engine]
+        DietaryEngine[Dietary & Allergen Guard]
+        PricingEngine[Multi-Currency & Tax Engine]
+        FeedbackEngine[Feedback & Sentiment Analyzer]
     end
 
     subgraph OperationsLayer["Hotel Command Center"]
@@ -40,7 +43,10 @@ flowchart TD
     Chat --> Context
     WeatherSync --> DynamicItinerary
     Context --> DynamicItinerary
+    Context --> DietaryEngine
+    Services --> PricingEngine
     DynamicItinerary --> Intervention
+    FeedbackEngine --> Dashboard
     Intervention --> Dashboard
     Services --> StaffDispatch
     StaffDispatch --> Dashboard
@@ -48,59 +54,49 @@ flowchart TD
 
 ---
 
-## 🌟 Key Features & Interface Modules
+## 🧠 Intelligence Utilities & Engines
 
-- **The Atithi Concierge AI**: A conversational companion providing immediate 24/7 assistance with room service, local exploration, spa bookings, and dynamic preferences like dietary tracking.
-- **Intelligent Guest Companion (Mobile Web App)**:
-  - **Smart Home & Stay Overview**: Real-time visibility into room status (Suite 402 Luxury Suite), checkout countdowns, weather synchronization, and one-tap access to services like housekeeping, valet, and room requests.
-  - **Proactive Itinerary Planning**: AI-driven morning briefings and dynamic scheduling tailored to current weather conditions and guest preferences.
-  - **Curated Local Experiences ("The Local Edit")**: Context-aware recommendations for local activities—such as Forest Bathing at Maldevta or culinary tasting menus—with instant reservation workflows.
-- **Hotel Command Center (Admin Dashboard)**:
-  - **Live Guest Activity & Interventions**: Real-time tracking of active guest states, automated request resolutions, and global satisfaction scores.
-  - **Demo & Environmental Controls**: Interactive simulation tools allowing operators to test contextual triggers like live weather changes (e.g., triggering rain protocols).
-
----
-
-## 🏗️ Tech Stack
-
-- **Frontend / UI**: React 18, Vite 5, Tailwind CSS, Framer Motion, Lucide Icons
-- **Concierge Engine**: Contextual preference scoring, dynamic weather conflict resolver
-- **CI / Quality**: GitHub Actions continuous integration and build verification
+| Utility | Description | File Path |
+|:---|:---|:---|
+| **Concierge Engine** | Dynamic weather adaptation & personalized activity recommendation | `src/utils/conciergeEngine.js` |
+| **Feedback Analyzer** | Guest review sentiment index & hospitality keyword categorization | `src/utils/feedbackAnalyzer.js` |
+| **Schedule Validator** | Itinerary duration parser and automated overlap conflict detector | `src/utils/scheduleValidator.js` |
+| **Pricing Engine** | Luxury GST tax calculation, service fees, and multi-currency exchange | `src/utils/pricingEngine.js` |
+| **Dietary Guard** | Allergen cross-checking and vegetarian/vegan/Jain dietary compliance | `src/utils/dietarySafety.js` |
 
 ---
 
 ## 🚀 Getting Started
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18+ recommended)
-- [Git](https://git-scm.com/)
-
-### Installation & Setup
-
 1. **Clone the repository:**
    ```bash
-   git clone git@github.com:viratpaudel/atithiai.git
+   git clone https://github.com/viratpaudel/atithiai.git
    cd atithiai
    ```
 
-2. **Configure environment variables:**
-   Copy the example environment file and configure your API keys:
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Install dependencies:**
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-4. **Start the local development server:**
+3. **Configure environment variables:**
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Start local development server:**
    ```bash
    npm run dev
    ```
 
-5. **Build for production:**
+5. **Run test suites:**
+   ```bash
+   npm test
+   # or natively with Node.js
+   node --test tests/*.test.js
+   ```
+
+6. **Build for production:**
    ```bash
    npm run build
    ```
@@ -113,6 +109,10 @@ flowchart TD
 - [x] Localized experience discovery and reservation flow (Dehradun pilot)
 - [x] Hotel Operations & Command Dashboard with live intervention metrics
 - [x] Modular data layer & contextual weather adaptation engine
+- [x] Multi-currency conversion & hospitality GST pricing calculator
+- [x] Dietary preference and allergen verification engine
+- [x] Guest feedback sentiment scoring and service tag categorization
+- [x] Comprehensive test suite with native Node.js test runner
 - [x] Automated CI verification pipeline
 - [ ] Deep Property Management System (PMS) integrations
 - [ ] Multi-lingual voice interface support
@@ -122,12 +122,6 @@ flowchart TD
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/viratpaudel/atithiai/issues).
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 
